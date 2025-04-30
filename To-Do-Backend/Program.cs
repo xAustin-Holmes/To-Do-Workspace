@@ -5,7 +5,7 @@ using ToDoBackend.DataBridge;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<ToDoDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("ToDoDbContext")));
+    options.UseSqlite("Data Source=todos.db"));
 
 // adds API controller support
 builder.Services.AddControllers();
