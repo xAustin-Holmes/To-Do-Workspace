@@ -7,11 +7,11 @@ namespace ToDoBackend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ToDoController : ControllerBase
+    public class ToDoItemsController : ControllerBase
     {
         private readonly ToDoDbContext _context;
 
-        public ToDoController(ToDoDbContext context)
+        public ToDoItemsController(ToDoDbContext context)
         {
             _context = context;
         }
@@ -83,7 +83,7 @@ namespace ToDoBackend.Controllers
             if (todo == null) return NotFound();
 
             _context.ToDoItems.Remove(todo);
-            
+
             await _context.SaveChangesAsync();
 
             return NoContent();
