@@ -1,5 +1,6 @@
 <script setup>
     import API from '../services/api.js';
+    import { createToDoItem } from '../factories/toDoFactory.js';
     import { ref, onMounted } from 'vue';
 
     const toDoItems = ref([]);
@@ -18,26 +19,18 @@
     const addToDo = async () => {
         if (newToDo.value.trim() === '') return;
 
+        const newItem = createToDoItem({
+            title: newToDo.value,
+            isUrgent: isUrgent.value,
+        });
+
         try {
-            console.log('Sending:', {
-                title: newToDo.value,
-                isUrgent: isUrgent.value,
-                isCompleted: false,
-                createdAt: new Date().toISOString(),
-            });
+            console.log('Sending:', newItem);
 
-            const res = await API.post('/todoitems', {
-                title: newToDo.value,
-                isUrgent: isUrgent.value,
-                isCompleted: false,
-                createdAt: new Date().toISOString(),
-            });
-
+            const res = await API.post('/todoitems', newItem);
             console.log('Added:', res.data);
             getToDoItems();
-            isUrgent.value = false;
-            showForm.value = false;
-            newToDo.value = '';
+            resetForm();
         } catch (err) {
             console.error('Error adding item:', err.response?.data || err.message);
         }
@@ -54,13 +47,15 @@
     const editToDo = async () => {
         if (!editingItem.value) return;
 
-        try {
-            const updatedItem = {
-                ...editingItem.value,
-                title: newToDo.value,
-                isUrgent: isUrgent.value,
-            };
+        const updatedItem = {
+            ...editingItem.value,
+            ...createToDoItem({
+            title: newToDo.value,
+            isUrgent: isUrgent.value
+            })
+        };
 
+        try {
             await API.put(`/todoitems/${updatedItem.id}`, updatedItem);
             console.log('Updated:', updatedItem);
             // CHANGE *************** dont keep running the getToDoItems() in final
