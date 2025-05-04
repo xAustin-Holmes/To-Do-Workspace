@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ToDoBackend.DataBridge;
+using System.Text.Json;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +20,11 @@ builder.Services.AddCors(options =>
 });
 
 // adds API controller support
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    });
 
 
 var app = builder.Build();

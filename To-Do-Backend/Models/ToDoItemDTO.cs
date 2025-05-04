@@ -2,10 +2,10 @@ namespace ToDoBackend.Models
 {
     public class ToDoItemDTO
     {
-        public int Id { get; set; }
-        public string? Title { get; set; }
-        public bool IsUrgent { get; set; }
-        public bool IsCompleted { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public int id { get; set; }
+        public string? title { get; set; }
+        public bool isUrgent { get; set; }
+        public bool isCompleted { get; set; }
+        public DateTime createdAt { get; set; }
     }
 }

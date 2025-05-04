@@ -2,11 +2,11 @@ namespace ToDoBackend.Models
 {
     public class ToDoItem
     {
-        public int Id { get; set; }
-        public string? Title { get; set; }
-        public bool IsUrgent { get; set; }
-        public bool IsCompleted { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public string? Secret { get; set; }
+        public int id { get; set; }
+        public string? title { get; set; }
+        public bool isUrgent { get; set; }
+        public bool isCompleted { get; set; }
+        public DateTime createdAt { get; set; }
+        public string? secret { get; set; }
     }
 }
