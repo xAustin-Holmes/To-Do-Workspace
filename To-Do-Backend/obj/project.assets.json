@@ -3663,11 +3663,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\To-Do-Workspace\\To-Do-Backend\\To-Do-Backend.csproj",
+      "projectUniqueName": "C:\\CodingProjects\\To-Do-Workspace\\To-Do-Backend\\To-Do-Backend.csproj",
       "projectName": "To-Do-Backend",
-      "projectPath": "E:\\To-Do-Workspace\\To-Do-Backend\\To-Do-Backend.csproj",
+      "projectPath": "C:\\CodingProjects\\To-Do-Workspace\\To-Do-Backend\\To-Do-Backend.csproj",
       "packagesPath": "C:\\Users\\apod5\\.nuget\\packages\\",
-      "outputPath": "E:\\To-Do-Workspace\\To-Do-Backend\\obj\\",
+      "outputPath": "C:\\CodingProjects\\To-Do-Workspace\\To-Do-Backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\apod5\\AppData\\Roaming\\NuGet\\NuGet.Config"
