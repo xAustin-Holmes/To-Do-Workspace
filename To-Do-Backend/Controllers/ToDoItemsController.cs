@@ -18,11 +18,21 @@ namespace ToDoBackend.Controllers
 
         // GET: api/ToDoItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ToDoItemDTO>>> GetToDos()
+        public async Task<ActionResult<IEnumerable<ToDoItemDTO>>> GetToDos([FromQuery] string? search)
         {
-            return await _context.ToDoItems
+            var query = _context.ToDoItems.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                var loweredSearch = search.ToLower();
+                query = query.Where(item => item.title != null && item.title.ToLower().Contains(loweredSearch));
+            }
+
+            var results = await query
                 .Select(item => ItemToDTO(item))
                 .ToListAsync();
+
+            return Ok(results);
         }
 
         // GET: api/ToDoItems/5

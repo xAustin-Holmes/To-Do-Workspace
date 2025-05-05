@@ -3,7 +3,9 @@
     import { createToDoItem } from '../factories/toDoFactory.js';
     import { createProvider } from '../services/ToDoProviderFactory';
     import { ref, onMounted, watch } from 'vue';
+    import { debounce } from 'lodash';
 
+    // Pick your provider factory pattern
     const providerType = ref('api'); // 'api' or 'local'
     const toDoProvider = ref(createProvider(providerType.value));
 
@@ -12,16 +14,30 @@
         getToDoItems();
     });
 
+    // Search functionality
+    const searchTerm = ref('');
+
+    const searchToDoItems = async () => {
+        const res = await toDoProvider.value.getToDoItems(searchTerm.value);
+        toDoItems.value = Array.isArray(res.data) ? res.data : [];
+    };
+
+    watch(searchTerm, debounce(() => {
+        getToDoItems();
+    }, 300))
+
     const toDoItems = ref([]);
     const newToDo = ref('');
     const isUrgent = ref(false);
     const showForm = ref(false);
     const isEditing = ref(false);
     const editingItem = ref(null);
+    
+
 
     const getToDoItems = async () => {
         //const res = await API.get('/todoitems');
-        const res = await toDoProvider.value.getToDoItems();
+        const res = await toDoProvider.value.getToDoItems(searchTerm.value);
 
         // Check if the response is an array or an object with data
         const items = Array.isArray(res)
@@ -120,6 +136,13 @@
             <button @click="showForm ? resetForm() : showForm = true" class="add-task-button">
                 {{ showForm ? 'Cancel' : 'Add Task' }}
             </button>
+
+            <input
+                type="text"
+                v-model="searchTerm"
+                placeholder="Search..."
+                class="search-input"
+            />
         </div>
         
 
