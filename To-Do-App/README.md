@@ -1,5 +1,35 @@
-# Vue 3 + Vite
+# FullStack To-Do App:
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Features include:
+- Add, edit, delete to-dos
+- Toggle urgent and completed status
+- Case-insensitive search with debounce
+- Switch between API provider and local storage
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Stack:
+- Frontend: Vue 3 + Vite + Axios
+- Backend: ASP.NET Core 8 Web API + Entity Framework Core
+- DB: SQLite
+
+## Make sure to download:
+- .NET 8 SDK
+- Node.js & npm (v20.19.1)
+- Git
+
+------------------
+
+### 1. Clone the repo
+https://github.com/xAustin-Holmes/To-Do-Workspace.git
+
+### 2. Backend Setup
+cd To-Do-Backend
+dotnet restore
+dotnet ef database update
+dotnet run
+Note: Check localhost url.  Code expects http://localhost:5213 (See api.js)
+
+### 3. Frontend Setup
+cd To-Do-App
+npm install
+npm run dev
+Note: Check localhost url.  Code expects http://localhost:5173
