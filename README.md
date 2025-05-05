@@ -22,14 +22,14 @@
 https://github.com/xAustin-Holmes/To-Do-Workspace.git
 
 ### 2. Backend Setup
-cd To-Do-Backend
-dotnet restore
-dotnet ef database update
-dotnet run
-Note: Check localhost url.  Code expects http://localhost:5213 (See api.js)
+- cd To-Do-Backend
+- dotnet restore
+- dotnet ef database update
+- dotnet run
+- Note: Check localhost url.  Code expects http://localhost:5213 (See api.js)
 
 ### 3. Frontend Setup
-cd To-Do-App
-npm install
-npm run dev
-Note: Check localhost url.  Code expects http://localhost:5173
+- cd To-Do-App
+- npm install
+- npm run dev
+- Note: Check localhost url.  Code expects http://localhost:5173
