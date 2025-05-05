@@ -1,7 +1,16 @@
 <script setup>
     import API from '../services/api.js';
     import { createToDoItem } from '../factories/toDoFactory.js';
-    import { ref, onMounted } from 'vue';
+    import { createProvider } from '../services/ToDoProviderFactory';
+    import { ref, onMounted, watch } from 'vue';
+
+    const providerType = ref('api'); // 'api' or 'local'
+    const toDoProvider = ref(createProvider(providerType.value));
+
+    watch(providerType, (newType) => {
+        toDoProvider.value = createProvider(newType);
+        getToDoItems();
+    });
 
     const toDoItems = ref([]);
     const newToDo = ref('');
@@ -11,9 +20,18 @@
     const editingItem = ref(null);
 
     const getToDoItems = async () => {
-        const res = await API.get('/todoitems');
-        console.log('GET /todoitems response:', res.data);
-        toDoItems.value = res.data;
+        //const res = await API.get('/todoitems');
+        const res = await toDoProvider.value.getToDoItems();
+
+        // Check if the response is an array or an object with data
+        const items = Array.isArray(res)
+            ? res
+            : Array.isArray(res.data)
+            ? res.data
+            : [];
+        
+        console.log('GET /todoitems response:', items);
+        toDoItems.value = items;
     };
 
     const addToDo = async () => {
@@ -26,8 +44,8 @@
 
         try {
             console.log('Sending:', newItem);
-
-            const res = await API.post('/todoitems', newItem);
+            //const res = await API.post('/todoitems', newItem);
+            const res = await toDoProvider.value.addToDo(newItem);
             console.log('Added:', res.data);
             getToDoItems();
             resetForm();
@@ -56,7 +74,7 @@
         };
 
         try {
-            await API.put(`/todoitems/${updatedItem.id}`, updatedItem);
+            await toDoProvider.value.editToDo(updatedItem);
             console.log('Updated:', updatedItem);
             // CHANGE *************** dont keep running the getToDoItems() in final
             getToDoItems();
@@ -75,7 +93,7 @@
     };
 
     const deleteToDo = async (toDoItem) => {
-        await API.delete(`/todoitems/${toDoItem.id}`);
+        await toDoProvider.value.deleteToDo(toDoItem);
         // CHANGE *************** dont keep running the getToDoItems() in final
         getToDoItems();
         
@@ -93,10 +111,17 @@
         <h1>
             My To-Do List
         </h1>
+        <div>
+            <select v-model="providerType">
+                <option value="api">API Provider</option>
+                <option value="local">LocalStorage Provider</option>
+            </select>
 
-        <button @click="showForm ? resetForm() : showForm = true" class="add-task-button">
-            {{ showForm ? 'Cancel' : 'Add Task' }}
-        </button>
+            <button @click="showForm ? resetForm() : showForm = true" class="add-task-button">
+                {{ showForm ? 'Cancel' : 'Add Task' }}
+            </button>
+        </div>
+        
 
         <div v-if="showForm" class="task-form">
             <form @submit.prevent="isEditing ? editToDo() : addToDo()">
